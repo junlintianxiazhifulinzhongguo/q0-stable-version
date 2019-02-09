@@ -2,11 +2,33 @@ import request from '@/utils/request'
 
 export function loginByUsername(username, password) {
   const data = {
-    username,
-    password
+    type:'name',
+    value:{
+      username,
+      password
+    }
   }
   return request({
-    url: '/login/login',
+    url: '/login/getToken',
+    method: 'post',
+    data
+  })
+}
+
+export function getAuthUrl(thirdpart) {
+  return request({
+    url: 'login/'+thirdpart+'/authUrl',
+    method: 'get'
+  })
+}
+
+export function loginByThirdparty(type, code) {
+  const data = {
+    type, 
+    value: code
+  }
+  return request({
+    url: 'login/getToken',
     method: 'post',
     data
   })
@@ -21,7 +43,7 @@ export function logout() {
 
 export function getUserInfo(token) {
   return request({
-    url: '/user/info',
+    url: '/login/getUserInfo',
     method: 'get',
     params: { token }
   })
